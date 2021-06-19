@@ -4,5 +4,5 @@ RUN apt-get update -qq -y && apt-get upgrade -qq -y && apt-get install -qq -y ma
 COPY mariadb_setup.sh /
 COPY my.cnf /
 RUN ./mariadb_setup.sh
-ENTRYPOINT [ "mysqld_safe" ]
+ENTRYPOINT [ "mysqld" ]
 #ENTRYPOINT [ "bash" ]

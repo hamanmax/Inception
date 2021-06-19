@@ -31,7 +31,7 @@ define( 'DB_USER', 'wpuser' );
 define( 'DB_PASSWORD', 'wppass' );
 
 /** Adresse de l’hébergement MySQL. */
-define( 'DB_HOST', '172.35.0.104' );
+define( 'DB_HOST', '172.20.0.4' );
 
 /** Jeu de caractères à utiliser par la base de données lors de la création des tables. */
 define( 'DB_CHARSET', 'utf8' );

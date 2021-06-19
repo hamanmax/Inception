@@ -1,0 +1,48 @@
+version: "3.9"  # optional since v1.27.0
+services:
+  nginx:
+    networks: 
+      inception:
+        ipv4_address: 172.20.0.2
+    volumes: 
+      - type: bind
+        source: /home/mhaman/data/
+        target: /var/www/wordpress
+    build:
+      context: ./srcs/nginx
+    image: nginx:local
+    container_name: Nginx
+    ports:
+      - "443:443"
+  wordpress:
+    networks: 
+      inception:
+        ipv4_address: 172.20.0.3
+    volumes:
+      - type: bind
+        source: /home/mhaman/data/
+        target: /var/www/wordpress/
+    build:
+      context: ./srcs/wordpress
+    image: wordpress:local
+    container_name: Wordpress
+  mariadb:
+    networks: 
+      inception:
+        ipv4_address: 172.20.0.4
+    volumes:
+      - type: bind
+        source: /home/mhaman/db/
+        target: /var/www/
+    build:
+      context: ./srcs/mariadb
+    image: mariadb:local
+    container_name: Mariadb
+volumes:
+  db:
+  data:
+networks: 
+  inception:
+    ipam:
+      config: 
+        - subnet: "172.20.0.0/24"

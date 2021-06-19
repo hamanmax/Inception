@@ -7,4 +7,3 @@ COPY wordpress_setup.sh /
 RUN ./wordpress_setup.sh
 ENTRYPOINT ["./usr/sbin/php-fpm7.3", "-F"]
 #ENTRYPOINT /bin/bash
-
