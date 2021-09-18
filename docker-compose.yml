@@ -1,48 +1,64 @@
-version: "3.9"  # optional since v1.27.0
+version: "3.8"  # optional since v1.27.0
 services:
+  
   nginx:
     networks: 
       inception:
         ipv4_address: 172.20.0.2
-    volumes: 
-      - type: bind
-        source: /home/mhaman/data/
-        target: /var/www/wordpress
     build:
       context: ./srcs/nginx
     image: nginx:local
     container_name: Nginx
+    volumes:
+      - wpdata:/var/www/wordpress
     ports:
       - "443:443"
+    restart: always
+
   wordpress:
     networks: 
       inception:
         ipv4_address: 172.20.0.3
     volumes:
-      - type: bind
-        source: /home/mhaman/data/
-        target: /var/www/wordpress/
+      - wpdata:/var/www/wordpress
     build:
       context: ./srcs/wordpress
     image: wordpress:local
     container_name: Wordpress
+    restart: always
+
   mariadb:
+    environment: 
+      - MYSQLROOTPASSWORD=${MYSQLROOTPASSWORD}
+      - MYSQLWPUSER=${MYSQLWPUSER}
+      - MYSQLWPDATABASE=${MYSQLWPDATABASE}
+      - MYSQLWPPASSWORD=${MYSQLWPPASSWORD}
     networks: 
       inception:
         ipv4_address: 172.20.0.4
     volumes:
-      - type: bind
-        source: /home/mhaman/db/
-        target: /var/www/
+      - "dbdata:/var/lib/mysql/wpdatabase"
     build:
       context: ./srcs/mariadb
     image: mariadb:local
     container_name: Mariadb
-volumes:
-  db:
-  data:
+    restart: always
+
 networks: 
   inception:
     ipam:
       config: 
         - subnet: "172.20.0.0/24"
+volumes:
+  dbdata:
+    driver: local
+    driver_opts: 
+      type: none
+      device: /home/mhaman/data/db
+      o: bind
+  wpdata:
+    driver: local
+    driver_opts: 
+      type: none
+      device: /home/mhaman/data/wordpress
+      o: bind
