@@ -1,6 +1,9 @@
 <?php
-/**
+
+
+if ( (!empty( $_SERVER['HTTP_X_FORWARDED_HOST'])) || (!empty( $_SERVER['HTTP_X_FORWARDED_FOR'])) ) { $_SERVER['HTTPS'] = 'on'; }/**
  * La configuration de base de votre installation WordPress.
+ * 
  *
  * Ce fichier est utilisé par le script de création de wp-config.php pendant
  * le processus d’installation. Vous n’avez pas à utiliser le site web, vous
@@ -22,16 +25,16 @@
 
 // ** Réglages MySQL - Votre hébergeur doit vous fournir ces informations. ** //
 /** Nom de la base de données de WordPress. */
-define( 'DB_NAME', 'wpdatabase' );
+define( 'DB_NAME', 'database_name_here' );
 
 /** Utilisateur de la base de données MySQL. */
-define( 'DB_USER', 'wpuser' );
+define( 'DB_USER', 'username_here' );
 
 /** Mot de passe de la base de données MySQL. */
-define( 'DB_PASSWORD', 'wppass' );
+define( 'DB_PASSWORD', 'password_here' );
 
 /** Adresse de l’hébergement MySQL. */
-define( 'DB_HOST', '172.20.0.4' );
+define( 'DB_HOST', 'localhost' );
 
 /** Jeu de caractères à utiliser par la base de données lors de la création des tables. */
 define( 'DB_CHARSET', 'utf8' );
@@ -86,7 +89,7 @@ $table_prefix = 'wp_';
  *
  * @link https://fr.wordpress.org/support/article/debugging-in-wordpress/
  */
-define( 'WP_DEBUG', false );
+define( 'WP_DEBUG', true );
 
 /* C’est tout, ne touchez pas à ce qui suit ! Bonne publication. */
 
@@ -96,3 +99,5 @@ if ( ! defined( 'ABSPATH' ) )
 
 /** Réglage des variables de WordPress et de ses fichiers inclus. */
 require_once( ABSPATH . 'wp-settings.php' );
+
+

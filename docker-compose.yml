@@ -19,6 +19,11 @@ services:
     networks: 
       inception:
         ipv4_address: 172.20.0.3
+    environment: 
+      - MYSQLWPUSER=${MYSQLWPUSER}
+      - MYSQLWPDATABASE=${MYSQLWPDATABASE}
+      - MYSQLWPPASSWORD=${MYSQLWPPASSWORD}
+      - MYSQLHOSTNAME=${MYSQLHOSTNAME}
     volumes:
       - wpdata:/var/www/wordpress
     build:
@@ -30,14 +35,11 @@ services:
   mariadb:
     environment: 
       - MYSQLROOTPASSWORD=${MYSQLROOTPASSWORD}
-      - MYSQLWPUSER=${MYSQLWPUSER}
-      - MYSQLWPDATABASE=${MYSQLWPDATABASE}
-      - MYSQLWPPASSWORD=${MYSQLWPPASSWORD}
     networks: 
       inception:
         ipv4_address: 172.20.0.4
     volumes:
-      - "dbdata:/var/lib/mysql/wpdatabase"
+      - "dbdata:/var/lib/mysql"
     build:
       context: ./srcs/mariadb
     image: mariadb:local

@@ -5,5 +5,6 @@ COPY wpdatabase.sql /
 COPY mariadb_setup.sh /
 COPY my.cnf /
 RUN ./mariadb_setup.sh
+RUN rm mariadb_setup.sh
 ENTRYPOINT [ "mysqld" ]
 #ENTRYPOINT [ "bash" ]

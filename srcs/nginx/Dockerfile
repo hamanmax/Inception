@@ -1,10 +1,7 @@
 FROM debian:buster
-
-COPY TSL1_3.sh  default /
 RUN apt-get update -qq -y && apt-get upgrade -qq -y 2> /dev/null
 RUN apt-get install nginx zsh openssl htop vim -y -qq
-RUN ./TSL1_3.sh
+RUN openssl req -x509 -nodes -days 365 -newkey rsa:2048 -keyout /etc/ssl/private/nginx-selfsigned.key -out /etc/ssl/certs/nginx-selfsigned.crt  -subj "/C=FR/ST=AURA/L=Lyon/O=42Lyon/CN="
+COPY nginx.conf /etc/nginx/conf.d
 ENTRYPOINT ["nginx", "-g", "daemon off;"]
-#ENTRYPOINT /bin/bash
-
-EXPOSE 80 443
+EXPOSE 443
