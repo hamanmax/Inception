@@ -1,7 +1,7 @@
 FROM debian:buster
 RUN apt-get update -qq -y && apt-get upgrade -qq -y 2> /dev/null
-RUN apt-get install nginx zsh openssl htop vim -y -qq
+RUN apt-get install nginx openssl -y -qq
 RUN openssl req -x509 -nodes -days 365 -newkey rsa:2048 -keyout /etc/ssl/private/nginx-selfsigned.key -out /etc/ssl/certs/nginx-selfsigned.crt  -subj "/C=FR/ST=AURA/L=Lyon/O=42Lyon/CN="
-COPY nginx.conf /etc/nginx/conf.d
+COPY conf/nginx.conf /etc/nginx/conf.d
 ENTRYPOINT ["nginx", "-g", "daemon off;"]
 EXPOSE 443

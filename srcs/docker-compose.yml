@@ -1,0 +1,71 @@
+version: "3.8"  # optional since v1.27.0
+services:
+  
+  nginx:
+    networks: 
+      inception:
+        ipv4_address: 172.20.0.2
+    build: nginx
+    image: nginx:local
+    container_name: Nginx
+    volumes:
+      - wpdata:/var/www/wordpress
+    ports:
+      - "443:443"
+    restart: always
+
+  wordpress:
+    networks: 
+      inception:
+        ipv4_address: 172.20.0.3
+    volumes:
+      - wpdata:/var/www/wordpress
+    build: 
+      context: wordpress
+      args:
+      - MYSQLWPUSER=${MYSQLWPUSER}
+      - MYSQLWPDATABASE=${MYSQLWPDATABASE}
+      - MYSQLWPPASSWORD=${MYSQLWPPASSWORD}
+      - MYSQLHOSTNAME=${MYSQLHOSTNAME}
+    image: wordpress:local
+    container_name: Wordpress
+    restart: always
+
+  mariadb:
+    networks: 
+      inception:
+        ipv4_address: 172.20.0.4
+    volumes:
+      - "dbdata:/var/lib/mysql"
+    build: 
+      context: mariadb
+      args:
+      - MYSQLROOTPASSWORD=${MYSQLROOTPASSWORD}
+      - MYSQLWPUSER=${MYSQLWPUSER}
+      - MYSQLWPDATABASE=${MYSQLWPDATABASE}
+      - MYSQLWPPASSWORD=${MYSQLWPPASSWORD}
+      - MYSQLHOSTNAME=${MYSQLHOSTNAME}
+      - SUPERUSERPASSWORD=${SUPERUSERPASSWORD}
+      - USERPASSWORD=${USERPASSWORD}
+    image: mariadb:local
+    container_name: Mariadb
+    restart: always
+
+networks: 
+  inception:
+    ipam:
+      config: 
+        - subnet: "172.20.0.0/24"
+volumes:
+  dbdata:
+    driver: local
+    driver_opts: 
+      type: none
+      device: /home/mhaman/data/db
+      o: bind
+  wpdata:
+    driver: local
+    driver_opts: 
+      type: none
+      device: /home/mhaman/data/wordpress
+      o: bind

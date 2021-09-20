@@ -1,10 +1,15 @@
 FROM debian:buster
-
 RUN apt-get update -qq -y && apt-get upgrade -qq -y && apt-get install -qq -y mariadb-server
-COPY wpdatabase.sql /
-COPY mariadb_setup.sh /
-COPY my.cnf /
+COPY conf/wpdatabase.sql /
+COPY conf/my.cnf /
+COPY script/mariadb_setup.sh /
+ARG MYSQLROOTPASSWORD
+ARG MYSQLWPUSER
+ARG MYSQLWPDATABASE
+ARG MYSQLWPPASSWORD
+ARG MYSQLHOSTNAME
+ARG SUPERUSERPASSWORD
+ARG USERPASSWORD
 RUN ./mariadb_setup.sh
 RUN rm mariadb_setup.sh
 ENTRYPOINT [ "mysqld" ]
-#ENTRYPOINT [ "bash" ]
