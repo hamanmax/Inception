@@ -1,15 +1,19 @@
+ifeq (,$(shell grep mhaman /etc/hosts))
+_ := $(shell sudo bash -c '/bin/echo "127.0.0.1 mhaman.42.fr" >> /etc/hosts')
+endif
+
 SRC=srcs/docker-compose.yml
 
 ENGINE=docker-compose
 
 all: run
 
-run:
+run: 
 	sudo mkdir -p /home/mhaman/data/wordpress
 	sudo mkdir -p /home/mhaman/data/db
 	$(ENGINE) -f $(SRC) up --build
 
-detach:
+detach: 
 	sudo mkdir -p /home/mhaman/data/wordpress
 	sudo mkdir -p /home/mhaman/data/db
 	$(ENGINE) -f $(SRC) up -d --build
@@ -25,4 +29,4 @@ fclean:
 	sudo rm -rf /home/mhaman/data/db/*
 	sudo rm -rf /home/mhaman/data/wordpress/*
 
-.PHONY: run detach ps top fclean
+.PHONY: run detach ps top fclean 
