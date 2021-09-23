@@ -26,7 +26,6 @@ top:
 
 fclean:
 	$(ENGINE) -f $(SRC) down --rmi all -v
-	sudo rm -rf /home/mhaman/data/db/*
-	sudo rm -rf /home/mhaman/data/wordpress/*
+	sudo rm -rf /home/mhaman/data/
 
 .PHONY: run detach ps top fclean 
